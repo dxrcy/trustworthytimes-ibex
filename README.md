@@ -1,6 +1,8 @@
 # Ibex Template (SSG)
 
-Simple template for an Ibex SSG site.
+Simple template for an [Ibex](https://github.com/darccyy/ibex) SSG site.
+
+# Usage
 
 ```sh
 # Install just
