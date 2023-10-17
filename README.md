@@ -1,4 +1,4 @@
-# Ibex Template (SSG)
+# Ibex Template
 
 Simple template for an [Ibex](https://github.com/darccyy/ibex) SSG site.
 
@@ -9,7 +9,7 @@ Simple template for an [Ibex](https://github.com/darccyy/ibex) SSG site.
 cargo install just
 # Install other dev dependencies
 just install
-# Build and open a local server
+# Build and open a local server on localhost:4000
 just serve
 ```
 
