@@ -24,5 +24,5 @@ GitHub will automatically build to the `gh-pages` branch, with the `deploy.yaml`
 
 In repository settings, navigate to the `Pages` tab, and change 'Branch' to `gh-pages`. GitHub pages will automatically update, and the website should be live soon.
 
-![Ibex logo](icon.png)
+![Ibex logo](static/icon.png)
 
