@@ -8,7 +8,6 @@ fn main() {
     let routes = routes! [
         (/) => at_index(secret),
     ];
-
     ssg::quick_build(routes).unwrap();
 }
 
@@ -46,6 +45,7 @@ fn at_index(secret: &str) -> Document {
 fn use_basic() -> View {
     view! {
         HEAD {
+            @use_meta [Meta::new()]
             title { "My Ibex App" }
             link [rel="shortcut icon", href=url!("static/icon.png")]/
             link [rel="stylesheet", href=url!("css/main.css")]/
