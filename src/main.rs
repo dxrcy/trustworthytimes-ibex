@@ -5,10 +5,14 @@ const URL_ROOT: &str = "/ibex-template/";
 
 fn main() {
     let secret = "Hello!";
+
     let routes = routes! [
-        (/) => at_index(secret),
+        (/)    => at_index(secret),
+        (/404) => at_404(),
     ];
+
     ssg::quick_build(routes).unwrap();
+    println!("All done!");
 }
 
 fn at_index(secret: &str) -> Document {
@@ -37,6 +41,17 @@ fn at_index(secret: &str) -> Document {
                 src=url!("static/icon.png"),
                 width=300,
             ]/
+        }
+    }
+    .into()
+}
+
+fn at_404() -> Document {
+    view! {
+        @use_basic[]
+
+        center {
+            "404 - Not found"
         }
     }
     .into()
