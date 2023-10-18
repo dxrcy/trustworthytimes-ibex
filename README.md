@@ -24,8 +24,6 @@ GitHub will automatically build to the `gh-pages` branch, with the `deploy.yaml`
 
 In repository settings, navigate to the `Pages` tab, and change 'Branch' to `gh-pages`. GitHub pages will automatically update, and the website should be live soon.
 
-![Ibex logo](static/icon.png)
-
 # File structure
 
 No Rust code is included in the website itself. It is just for compilation.
@@ -37,4 +35,6 @@ No Rust code is included in the website itself. It is just for compilation.
     - `/src/js` can be used to `include_str!` Javascript code into templates
 - Static files (such as images or assets) are found in `/static`, and are copied directly into `/build/static`
     - `/static` may be symlinked in development mode (for compilation speed), but never in production
+
+![Ibex logo](static/icon.png)
 
