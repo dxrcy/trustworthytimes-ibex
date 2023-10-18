@@ -26,3 +26,15 @@ In repository settings, navigate to the `Pages` tab, and change 'Branch' to `gh-
 
 ![Ibex logo](static/icon.png)
 
+# File structure
+
+No Rust code is included in the website itself. It is just for compilation.
+
+- Everything is compiled to `/build` (except `/target`)
+- Source files are included in `/src`
+    - `/src` is the Rust binary source folder
+    - `/src/scss` will be compiled to css and written to `/build/css`
+    - `/src/js` can be used to `include_str!` Javascript code into templates
+- Static files (such as images or assets) are found in `/static`, and are copied directly into `/build/static`
+    - `/static` may be symlinked in development mode (for compilation speed), but never in production
+
