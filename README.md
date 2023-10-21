@@ -10,6 +10,7 @@ Simple template for an [Ibex](https://github.com/darccyy/ibex) SSG site.
 # Clone the repo
 git clone https://github.com/darccyy/ibex-template my-ibex-app
 cd my-ibex-app
+git remote remove origin
 
 # Install some dev dependencies
 cargo install just cargo-watch basic-http-server
