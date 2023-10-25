@@ -17,7 +17,7 @@ fn main() {
 
 fn at_index(secret: &str) -> Document {
     view! {
-        @use_basic[]
+        @use_base[]
 
         center {
             h1 { "My Ibex App" }
@@ -48,7 +48,7 @@ fn at_index(secret: &str) -> Document {
 
 fn at_404() -> Document {
     view! {
-        @use_basic[]
+        @use_base[]
 
         center {
             "404 - Not found"
@@ -57,13 +57,13 @@ fn at_404() -> Document {
     .into()
 }
 
-fn use_basic() -> View {
+fn use_base() -> View {
     view! {
         HEAD {
             @use_meta [Meta::new()]
             title { "My Ibex App" }
             link [rel="shortcut icon", href=url!("static/icon.png")]/
-            link [rel="stylesheet", href=url!("css/main.css")]/
+            link [rel="stylesheet", href=url!("css/base.css")]/
         }
     }
 }
