@@ -4,10 +4,8 @@ use ibex::{routes, ssg};
 const URL_ROOT: &str = "/ibex-template/";
 
 fn main() {
-    let secret = "Hello!";
-
     let routes = routes! [
-        (/)    => at_index(secret),
+        (/)    => at_index(),
         (/404) => at_404(),
     ];
 
@@ -15,7 +13,7 @@ fn main() {
     println!("All done!");
 }
 
-fn at_index(secret: &str) -> Document {
+fn at_index() -> Document {
     view! {
         @use_base[]
 
@@ -27,13 +25,7 @@ fn at_index(secret: &str) -> Document {
                     "Ibex Template"
                 }
             }
-            p {
-                "Secret message:" ~ i { "'" [secret] "'" }
-            }
-            p {
-                a [href=url!("not/a/real/path")] {
-                    "404 Example"
-                }
+            p { a [href=url!("not/a/real/path")] { "404 Example" }
             }
             br/
             img [
