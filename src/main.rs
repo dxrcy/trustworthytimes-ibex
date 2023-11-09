@@ -25,8 +25,7 @@ fn at_index() -> Document {
                     "Ibex Template"
                 }
             }
-            p { a [href=url!("not/a/real/path")] { "404 Example" }
-            }
+            p { a [href=url!("not/a/real/path")] { "404 Example" } }
             br/
             img [
                 alt="Ibex logo",
