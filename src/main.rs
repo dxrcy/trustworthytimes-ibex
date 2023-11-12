@@ -10,7 +10,7 @@ fn main() {
     ];
 
     ssg::quick_build(routes).unwrap();
-    println!("All done!");
+    println!("\x1b[34;1mBuilt successfully!\x1b[0m");
 }
 
 fn at_index() -> Document {
