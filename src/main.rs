@@ -1,7 +1,8 @@
 use ibex::prelude::*;
 use ibex::{routes, ssg};
 
-const URL_ROOT: &str = "/ibex-template/";
+/// Name of github repo
+const URL_ROOT: &str = "/trustworthytimes/";
 
 fn main() {
     let routes = routes! [
@@ -18,7 +19,7 @@ fn at_index() -> Document {
         @use_base
 
         center {
-            h1 { "My Ibex App" }
+            h1 { "The Trustworthy Times" }
             p {
                 "This app was made using"
                 ~ a [href="https://github.com/darccyy/ibex-template"] {
