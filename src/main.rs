@@ -9,7 +9,7 @@ fn main() {
         (/404) => at_404(),
     ];
 
-    ssg::quick_build(routes).unwrap();
+    ssg::quick_build(routes).expect("Failed to build");
     println!("\x1b[34;1mBuilt successfully!\x1b[0m");
 }
 
