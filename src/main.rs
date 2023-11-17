@@ -10,8 +10,6 @@ const URL_ROOT: &str = "/trustworthytimes/";
 fn main() {
     let articles = news::get_articles(ibex::is_local());
 
-    println!("{:#?}", articles);
-
     let routes = routes! [
         (/)
             => at_index(&articles),

@@ -4,7 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-# ammonia = "3.3.0"
-# html_sanitizer = "0.1.1"
 # ibex = { path = "../ibex" }
 ibex = { git = "https://github.com/darccyy/ibex" }

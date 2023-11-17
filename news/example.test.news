@@ -87,6 +87,11 @@ this section tests html escape:
 
 ---
 
+[ this is a | test of a |link | https://google.com ]
+[awoidjiowjd|@other.test]
+
+---
+
 ~~~ {small text w preset | @small}
 
 ~~~ {

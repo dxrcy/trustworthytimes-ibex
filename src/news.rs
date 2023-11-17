@@ -19,7 +19,13 @@ pub struct Article {
 impl Article {
     pub fn from(id: impl Into<String>, content: &str, url: &str) -> Result<Article, ()> {
         let id = id.into();
-        let (body, meta) = parse_news(content);
+        let (mut body, meta) = parse_news(content);
+
+        for (key, value) in &meta {
+            body = body.replace(&format!("@{key}"), value);
+        }
+        body = format_primative_styles(&body);
+        body = format_links(&body, url);
 
         macro_rules! meta {
             ( $key:literal ) => {
@@ -29,13 +35,14 @@ impl Article {
             };
         }
 
-        let tags = meta.get("tags").map(split_meta_list).unwrap_or_default();
+        // Lists
         let topic = split_meta_list(meta!("topic"));
+        let tags = meta.get("tags").map(split_meta_list).unwrap_or_default();
 
         let image = meta!("image");
         let image = if image == "@" {
             // Use image from id
-            format!("{url}public/thumbs/{id}.jpg")
+            format!("{url}static/thumbs/{id}.jpg")
         } else if image.starts_with('@') {
             // Use custom path relative to url
             // Remove first character
@@ -60,6 +67,114 @@ impl Article {
             body,
         })
     }
+}
+
+fn format_links(body: &str, url: &str) -> String {
+    let mut output = String::new();
+    let mut current_link = None::<String>;
+
+    for ch in body.chars() {
+        match &mut current_link {
+            Some(link) => {
+                if ch == ']' {
+                    if let Some(link) = convert_link_to_html(link, url) {
+                        output += &link;
+                    }
+                    current_link = None;
+                } else {
+                    link.push(ch);
+                }
+            }
+            None => {
+                if ch == '[' {
+                    current_link = Some(String::new());
+                } else {
+                    output.push(ch);
+                }
+            }
+        }
+    }
+
+    output
+}
+
+fn convert_link_to_html(link: &str, url: &str) -> Option<String> {
+    let mut split = link.split('|');
+
+    let href = split.next_back()?;
+    let href = replace_with_url(href, url);
+
+    let desc = split.collect::<Vec<_>>().join("|");
+    let desc = desc.trim();
+    let desc = if desc.is_empty() { &href } else { desc };
+
+    Some(format!("<a href={href}>{desc}</a>"))
+}
+
+/// Replace `@` at start of link with url
+fn replace_with_url(link: &str, url: &str) -> String {
+    if link.starts_with('@') {
+        let mut chars = link.chars();
+        chars.next();
+        format!("{url}{}", chars.as_str())
+    } else {
+        link.to_string()
+    }
+}
+
+fn format_primative_styles(body: &str) -> String {
+    #[derive(Default)]
+    struct Primatives {
+        italic: bool,
+        bold: bool,
+        underline: bool,
+        strike: bool,
+        code: bool,
+        purple: bool,
+    }
+    let mut prims = Primatives::default();
+
+    let mut output = String::new();
+    let mut is_escaped = false;
+
+    for ch in body.chars() {
+        if is_escaped {
+            output.push(ch);
+            is_escaped = false;
+            continue;
+        }
+
+        macro_rules! toggle_style {
+            ( $name:ident $tag:literal ) => {{
+                output += if prims.$name {
+                    concat!("</", $tag, ">")
+                } else {
+                    concat!("<", $tag, ">")
+                };
+                prims.$name ^= true;
+            }};
+        }
+
+        match ch {
+            '\\' => is_escaped = true,
+            '*' => toggle_style!(italic "i"),
+            '^' => toggle_style!(bold "b"),
+            '_' => toggle_style!(underline "u"),
+            '~' => toggle_style!(strike "strike"),
+            '`' => toggle_style!(code "code"),
+            '%' => {
+                output.push_str(if prims.purple {
+                    "</span>"
+                } else {
+                    r#"<span class="purple">"#
+                });
+                prims.purple ^= true;
+            }
+            _ => output.push(ch),
+        }
+    }
+
+    output
 }
 
 fn split_meta_list(line: impl AsRef<str>) -> Vec<String> {
@@ -184,7 +299,7 @@ pub fn get_articles(include_test_files: bool) -> Vec<Article> {
     let files = read_all_files(NEWS_DIR).expect("Failed to read news files");
     for (filename, content) in files {
         let id = remove_file_extension(&filename);
-        if id.ends_with(".test") ^ include_test_files {
+        if id.ends_with(".test") && !include_test_files {
             continue;
         }
         println!("{}", id);
@@ -220,16 +335,13 @@ fn read_all_files(dir: &str) -> io::Result<Vec<(String, String)>> {
 
 fn remove_file_extension(filename: &str) -> &str {
     let mut chars = filename.chars();
-
     loop {
         match chars.next_back() {
             Some('.') | None => break,
             _ => (),
         }
     }
-
     let new_filename = chars.as_str();
-
     if new_filename.is_empty() {
         filename
     } else {
