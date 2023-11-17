@@ -96,8 +96,8 @@ fn use_base() -> View {
     view! {
         HEAD {
             @use_meta [Meta::new()]
-            title { "My Ibex App" }
-            link [rel="shortcut icon", href=url!("static/icon.png")]/
+            title { "Trustworthy Times" }
+            link [rel="shortcut icon", href=url!("static/images/icon.png")]/
             link [rel="stylesheet", href=url!("css/base.css")]/
         }
 

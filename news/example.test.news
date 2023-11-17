@@ -50,8 +50,8 @@ hr below
 
 1. ordered
 2. list
-- ordered
-3. unordered
+- unordered
+3. ordered
 
 ~~~ this is a comment
 
@@ -82,6 +82,8 @@ this section tests html escape:
 - <strong>this text should NOT be bold!</strong>
 
 1. <strong>this text should NOT be bold!</strong>
+
+<span style="color:red"> this should NOT be red </span>
 
 ---
 
