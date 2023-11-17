@@ -46,7 +46,7 @@ fn at_article(article: Article) -> Document {
         p { [date] }
         p {
             [:for (i, topic) in topic.into_iter().enumerate() {
-                [:if i > 0 { ~ ">" ~ }]
+                [:if i > 0 { ~ &gt; ~ }]
                 [topic]
             }]
         }
@@ -56,7 +56,7 @@ fn at_article(article: Article) -> Document {
                 [tag]
             }]
         }
-        img [alt=alt, src=image]/
+        img [alt=alt, src=image, width=200]/
         p { [body] }
     }
     .into()

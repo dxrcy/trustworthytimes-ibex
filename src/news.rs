@@ -233,7 +233,7 @@ fn parse_news(file: &str) -> (String, Dict) {
                 "-" => {
                     let parent = match current_list {
                         ListKind::None => "<ul>",
-                        ListKind::Ordered => "</ol>\n<ul>\n",
+                        ListKind::Ordered => "</ol><ul>",
                         ListKind::Unordered => "",
                     };
                     current_list = ListKind::Unordered;
@@ -244,7 +244,7 @@ fn parse_news(file: &str) -> (String, Dict) {
                     let parent = match current_list {
                         ListKind::None => "<ol>",
                         ListKind::Ordered => "",
-                        ListKind::Unordered => "</ul>\n<ol>\n",
+                        ListKind::Unordered => "</ul><ol>",
                     };
                     current_list = ListKind::Ordered;
                     format!("{parent}<li>{}</li>", sanitize_html(rest))
@@ -263,7 +263,7 @@ fn parse_news(file: &str) -> (String, Dict) {
         }
     }
 
-    (body.join("\n"), meta)
+    (body.join(""), meta)
 }
 
 fn sanitize_html(dirty: &str) -> String {
@@ -302,7 +302,6 @@ pub fn get_articles(include_test_files: bool) -> Vec<Article> {
         if id.ends_with(".test") && !include_test_files {
             continue;
         }
-        println!("{}", id);
         let article = Article::from(id, &content, &url!()).expect("Failed to parse article");
         articles.push(article);
     }
